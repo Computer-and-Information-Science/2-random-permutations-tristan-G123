@@ -27,27 +27,28 @@ void permutations1 (int array[], size_t size) {
     // TODO: Implement algorithm #1 here
     // for loop which goes through each value in array
     for(size_t i=0;i<size;i++){
-        size_t temp=size-1;
+        size_t temp;
         //while loop that repeats until search returns with the value size
-        while(temp!=size){
-            array[i]=randint(1,size);
-            temp=search(array,size,array[i]);
-        }
+         do {
+            array[i] = randint(1, size);
+            temp = search(array, i, array[i]);  // only search previous elements
+        } while (temp != i);  // repeat until value is unique
     }
 }
 
 void permutations2 (int array[], size_t size) {
     // TODO: Implement algorithm #2 here
     //creates bool array to store used numbers
-    bool used[size];
+    bool* used =new bool[size];
     //for loop to go through entire array
-    for(size_t i=0;i<size;i++){
-        array[i]=randint(1,size);
-        //while loop that uses used to check numbers that aren't used
-        while(!used[array[i-1]]){
-            array[i]=randint(1,size);
-        }
-        used[i-1]=true;
+   for (size_t i = 0; i < size; i++) {
+        size_t candidate;
+        do {
+            candidate = randint(1, size);        // pick random number
+        } while (used[candidate - 1]);          // repeat if already used
+
+        array[i] = candidate;
+        used[candidate - 1] = true;            // mark number as used
     }
 }
 
